@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <style type="text/css">
+            body, input {
+                font-family: "Verdana","sans-serif";
+                background-color: #000000;
+                color: #ffffff;
+            }
+        </style>
+        <script src="lib/three.min.js"></script>
+        <script src="lib/three.module.js"></script>
+        <script src="lib/OrbitControls.js"></script>
+        <script src="lib/dat.gui.min.js"></script>
+        <script src="lib/myUtilities.js"></script>
+		<script type="text/javascript">
+        function runScript() {
+            var sname = document.getElementById("scriptname").value;
+            location.href="?load=" + sname;
+        }
+		function getParameterByName(name) {
+			var match = RegExp('[?&]' + name + '=([^&]*)')
+							.exec(window.location.search);
+			return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+        }
+        function init() {
+		    var loadScript = getParameterByName('load');
+		    if (loadScript !== null) {
+			    var thescript = document.createElement('script');
+			    thescript.setAttribute('type','text/javascript');
+			    thescript.setAttribute('src',loadScript);
+                thescript.setAttribute('onerror',"alert('script not found')");
+			    document.getElementsByTagName('head')[0].appendChild(thescript);
+                document.getElementById('scriptname').value = loadScript
+		    }
+        }
+        document.onkeypress = function(event) {
+            if (event.keyCode == 13)
+                runScript();
+        }
+		</script>
+	</head>
+	<body onload="init()">
+        <p>Enter script name: <input type="text" id="scriptname" value="">&nbsp;&nbsp;
+        <input type="button" value="Run" onclick="runScript();">&nbsp;&nbsp;
+        <span id="msg"></span></p>
+        <div id="container" style="height: 600px; width: 1200px; position: absolute; left: 0px;">
+		</div>
+	</body>
+</html>
